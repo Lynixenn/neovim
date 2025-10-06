@@ -1,5 +1,6 @@
 # Compiled Lua sources
 luac.out
+.luarc.json
 
 # Lazyvim package file
 lazy-lock.json

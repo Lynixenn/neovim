@@ -9,10 +9,10 @@ function M.load()
     if not file then
         return {} -- Return empty state if file doesn't exist
     end
-    
+
     local content = file:read("*a")
     file:close()
-    
+
     local ok, decoded = pcall(vim.json.decode, content)
     if ok and decoded then
         return decoded
@@ -35,7 +35,7 @@ function M.toggle(addon_name)
     local state = M.load()
     state[addon_name] = not state[addon_name]
     M.save(state)
-    
+
     local status = state[addon_name] and "enabled" or "disabled"
     vim.notify(
         string.format("Addon '%s' %s. Restart Neovim to apply changes.", addon_name, status),

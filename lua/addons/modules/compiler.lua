@@ -6,9 +6,9 @@ return {
         dependencies = { "stevearc/overseer.nvim" },
         opts = {},
         keys = {
-            { "<F6>", "<cmd>CompilerOpen<cr>", desc = "Open Compiler" },
-            { "<S-F6>", "<cmd>CompilerRedo<cr>", desc = "Redo Last Compiler Task" },
-            { "<S-F7>", "<cmd>CompilerToggleResults<cr>", desc = "Toggle Compiler Results" },
+            { "<f6>", "<cmd>compileropen<cr>", desc = "open compiler" },
+            { "<s-f6>", "<cmd>compilerredo<cr>", desc = "redo last compiler task" },
+            { "<s-f7>", "<cmd>compilertoggleresults<cr>", desc = "toggle compiler results" },
         },
     },
     {

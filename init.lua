@@ -47,6 +47,7 @@ local function load_addon(addon_name)
     return {}
 end
 
+-- General/Basic Plugins
 local plugins = {
     -- mini.nvim: minimal and dependency-free module suite
     {
@@ -59,10 +60,10 @@ local plugins = {
             require("mini.surround").setup()
             require("mini.tabline").setup()
             require("mini.bufremove").setup()
-            require("mini.indentscope").setup()
+            -- require("mini.indentscope").setup()
             require("mini.statusline").setup()
-            require("mini.notify").setup()
-            vim.notify = require("mini.notify").make_notify()
+            -- require("mini.notify").setup()
+            -- vim.notify = require("mini.notify").make_notify()
             require("mini.icons").setup()
             require('mini.icons').mock_nvim_web_devicons()
             require("mini.cursorword").setup()
@@ -70,10 +71,34 @@ local plugins = {
         end,
     },
 
+    -- Fidget: Nonintrusive Notification plugin
+    {
+        "j-hui/fidget.nvim",
+        tag = "v1.6.1",
+        lazy = false,
+        opts = {
+            progress = {
+                display = {
+                    done_icon = "✔",
+                    progress_icon = { "dots" },
+                },
+            },
+            notification = {
+                override_vim_notify = true,
+                filter = vim.log.levels.INFO,
+                window = {
+                    winblend = 0,
+                    border = "none",
+                    relative = "editor",
+                },
+            },
+        },
+    },
+
     -- OTree: Filetree with Oil.nvim support
     {
         "Eutrius/Otree.nvim",
-        lazy = false,
+        cmd = { "Otree" },
         dependencies = {
             "stevearc/oil.nvim",
             { "echasnovski/mini.icons", opts = {} },
@@ -111,7 +136,7 @@ local plugins = {
     -- Treesitter-Context: Show Context
     {
         "nvim-treesitter/nvim-treesitter-context",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         opts = { max_lines = 4, multiline_threshold = 2 },
     },
 
@@ -127,13 +152,13 @@ local plugins = {
     -- Todo-comments: Highlight comments
     {
         "folke/todo-comments.nvim",
-        event = "VeryLazy",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {}
     },
 
     {
         "nvim-telescope/telescope.nvim",
-        event = "VeryLazy",
+        cmd = "Telescope",
         opts = {
             pickers = {
                 find_files = {
@@ -175,7 +200,9 @@ local plugins = {
         "folke/which-key.nvim",
         event = "VeryLazy",
         config = function()
-            require("which-key").setup()
+            require("which-key").setup({
+                delay = 0;
+            })
         end,
     },
 
@@ -233,10 +260,10 @@ wk.add({
     -- { "<leader>fg", "<cmd>Pick grep_live<cr>",                         desc = "Live grep",              mode = "n" },
     -- { "<leader>fb", "<cmd>Pick buffers<cr>",                           desc = "Find buffers",           mode = "n" },
     -- { "<leader>fh", "<cmd>Pick help<cr>",                              desc = "Help tags",              mode = "n" },
-    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files", mode = 'n'},
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep", mode = 'n'},
-    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find buffers", mode = 'n' },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags", mode = 'n' },
+    { "<leader>ff", "<cmd>Telescope find_files<cr>",                   desc = "Find files",             mode = 'n' },
+    { "<leader>fg", "<cmd>Telescope live_grep<cr>",                    desc = "Live grep",              mode = 'n' },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>",                      desc = "Find buffers",           mode = 'n' },
+    { "<leader>fh", "<cmd>Telescope help_tags<cr>",                    desc = "Help tags",              mode = 'n' },
 
     -- Buffer group
     { "<leader>b",  group = "Buffer" },

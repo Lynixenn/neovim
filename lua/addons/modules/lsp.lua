@@ -38,7 +38,7 @@ return {
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason-lspconfig.nvim" },
+        dependencies = { "williamboman/mason-lspconfig.nvim", "j-hui/fidget.nvim" },
         config = function()
             local lspconfig = require("lspconfig")
             -- LSP keymaps (only when LSP attaches)
