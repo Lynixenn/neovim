@@ -9,19 +9,19 @@ local M = {}
 
 -- Define available addons
 local addons = {
-    { name = "lsp", display = "LSP & Mason (Language Server Support)" },
-    { name = "compiler", display = "Compiler (Build & Run)" },
-    { name = "rust", display = "Rust Extras (Rustacean & extended Cargo Support)" },
-    { name = "java", display = "Java Extras (Extended Java Support + Debug)" },
-    { name = "typst", display = "Typst markup support (Live Preview & Compilation)" },
-    { name = "code-extras", display = "Code Addons (Codelens & Hints)" },
-    { name = "git-extras", display = "Lazygit Neovim Integration (Graphical Git Helper)" },
+    { name = "lsp",         display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
+    { name = "compiler",    display = "Compiler (Build & Run)" },
+    { name = "rust",        display = "Rust Extras (Rustacean & extended Cargo Support)" },
+    { name = "java",        display = "Java Extras (Extended Java Support + Debug)" },
+    { name = "typst",       display = "Typst markup support (Live Preview & Compilation)" },
+    { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
+    { name = "git-extras",  display = "Lazygit Neovim Integration (Graphical Git Helper)" },
 }
 
 -- Create custom telescope picker
 function M.show()
     local current_state = state.load()
-    
+
     -- Build entries with current status
     local entries = {}
     for _, addon in ipairs(addons) do
@@ -34,7 +34,7 @@ function M.show()
             enabled = enabled,
         })
     end
-    
+
     pickers.new({}, {
         prompt_title = "Toggle Addons (restart required)",
         finder = finders.new_table({
@@ -62,4 +62,3 @@ function M.show()
 end
 
 return M
-
