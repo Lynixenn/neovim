@@ -194,7 +194,7 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras" }
 for _, addon_name in ipairs(addon_names) do
     local addon_plugins = load_addon(addon_name)
     for _, plugin in ipairs(addon_plugins) do

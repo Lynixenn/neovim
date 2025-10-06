@@ -11,10 +11,11 @@ local M = {}
 local addons = {
     { name = "lsp", display = "LSP & Mason (Language Server Support)" },
     { name = "compiler", display = "Compiler (Build & Run)" },
-    { name = "rust", display = "Rust Extras (Rustacean & extended Cargo Support)"},
-    { name = "java", display = "Java Extras (Extended Java Support + Debug)"},
-    { name = "typst", display = "Typst markup support (Live Preview & Compilation)"},
-    { name = "code-extras", display = "Code Addons (Codelens & Hints)"},
+    { name = "rust", display = "Rust Extras (Rustacean & extended Cargo Support)" },
+    { name = "java", display = "Java Extras (Extended Java Support + Debug)" },
+    { name = "typst", display = "Typst markup support (Live Preview & Compilation)" },
+    { name = "code-extras", display = "Code Addons (Codelens & Hints)" },
+    { name = "git-extras", display = "Lazygit Neovim Integration (Graphical Git Helper)" },
 }
 
 -- Create custom telescope picker
