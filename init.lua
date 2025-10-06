@@ -113,6 +113,7 @@ local plugins = {
                 win_size = 40,
                 open_on_left = false,
                 git_signs = true,
+                lsp_signs = true,
                 show_hidden = true,
                 show_ignore = true,
             })
