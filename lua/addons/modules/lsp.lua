@@ -33,14 +33,31 @@ return {
             })
         end,
     },
-    
+
+    -- Blink.cmp: Autocompletion UI Plugin
+    {
+        "saghen/blink.cmp",
+        version = '1.*',
+        event = { "InsertEnter", "CmdlineEnter" },
+        opts = {
+            keymap = { preset = 'default' },
+            
+            completion = {
+                documentation = { auto_show = true, auto_show_delay_ms = 200 }
+            },
+
+            sources = {
+                default = { "lsp", "snippets", "path", "buffer" }
+            },
+        }
+    },
+
     -- LSP Config
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason-lspconfig.nvim", "j-hui/fidget.nvim" },
+        dependencies = { "williamboman/mason-lspconfig.nvim", "j-hui/fidget.nvim", "saghen/blink.cmp" },
         config = function()
-            local lspconfig = require("lspconfig")
             -- LSP keymaps (only when LSP attaches)
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -56,5 +73,6 @@ return {
             })
         end,
     },
+
 }
 

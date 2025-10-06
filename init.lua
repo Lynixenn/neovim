@@ -60,15 +60,20 @@ local plugins = {
             require("mini.surround").setup()
             require("mini.tabline").setup()
             require("mini.bufremove").setup()
-            -- require("mini.indentscope").setup()
             require("mini.statusline").setup()
-            -- require("mini.notify").setup()
-            -- vim.notify = require("mini.notify").make_notify()
             require("mini.icons").setup()
             require('mini.icons').mock_nvim_web_devicons()
             require("mini.cursorword").setup()
             require("mini.move").setup()
         end,
+    },
+
+    -- Indent-blankline: Indentlines with Highlighting of the current scope
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        event = "BufReadPost", 
+        opts = {}
     },
 
     -- Fidget: Nonintrusive Notification plugin
