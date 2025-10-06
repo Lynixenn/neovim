@@ -33,10 +33,8 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 
--- Load addon state
 local addon_state = require("addons.state")
 
--- Function to load addon plugins
 local function load_addon(addon_name)
     if addon_state.is_enabled(addon_name) then
         local ok, addon_plugins = pcall(require, "addons.modules." .. addon_name)
