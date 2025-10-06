@@ -1,5 +1,3 @@
-# Neovim Configuration
-
 A simple and modular Neovim configuration written in Lua.
 
 ## Installation
