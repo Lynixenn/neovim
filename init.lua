@@ -72,7 +72,7 @@ local plugins = {
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
-        event = "BufReadPost", 
+        event = "BufReadPost",
         opts = {}
     },
 
@@ -207,7 +207,7 @@ local plugins = {
         event = "VeryLazy",
         config = function()
             require("which-key").setup({
-                delay = 0;
+                delay = 0,
             })
         end,
     },

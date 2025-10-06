@@ -1,4 +1,6 @@
 return {
+
+    -- Lensline.nvim: Codelens/Hints
     {
         'oribarilan/lensline.nvim',
         branch = 'release/2.x',
@@ -33,5 +35,10 @@ return {
                 }
             })
         end,
-    }
+    },
+
+    -- Dropbar.nvim: Breadcrumbs (Context aware). VSCode Like
+    {
+        'Bekaboo/dropbar.nvim',
+    },
 }
