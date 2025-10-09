@@ -225,7 +225,7 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview" }
 for _, addon_name in ipairs(addon_names) do
     local addon_plugins = load_addon(addon_name)
     for _, plugin in ipairs(addon_plugins) do
@@ -262,10 +262,6 @@ wk.add({
 
     -- Find group (mini.pick)
     { "<leader>f",  group = "Find" },
-    -- { "<leader>ff", "<cmd>Pick files<cr>",                             desc = "Find files",             mode = "n" },
-    -- { "<leader>fg", "<cmd>Pick grep_live<cr>",                         desc = "Live grep",              mode = "n" },
-    -- { "<leader>fb", "<cmd>Pick buffers<cr>",                           desc = "Find buffers",           mode = "n" },
-    -- { "<leader>fh", "<cmd>Pick help<cr>",                              desc = "Help tags",              mode = "n" },
     { "<leader>ff", "<cmd>Telescope find_files<cr>",                   desc = "Find files",             mode = 'n' },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>",                    desc = "Live grep",              mode = 'n' },
     { "<leader>fb", "<cmd>Telescope buffers<cr>",                      desc = "Find buffers",           mode = 'n' },

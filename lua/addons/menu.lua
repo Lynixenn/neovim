@@ -16,6 +16,7 @@ local addons = {
     { name = "typst",       display = "Typst markup support (Live Preview & Compilation)" },
     { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
     { name = "git-extras",  display = "Lazygit Neovim Integration (Graphical Git Helper)" },
+    { name = "markdown-preview", display = "Markdown Support (Preview in-terminal)"},
 }
 
 -- Create custom telescope picker
