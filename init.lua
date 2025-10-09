@@ -227,9 +227,11 @@ local plugins = {
 -- Load addon plugins
 local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview" }
 for _, addon_name in ipairs(addon_names) do
-    local addon_plugins = load_addon(addon_name)
-    for _, plugin in ipairs(addon_plugins) do
-        table.insert(plugins, plugin)
+    local ok, addon_plugins = pcall(load_addon, addon_name)
+    if ok and addon_plugins then
+        for _, plugin in ipairs(addon_plugins) do
+            table.insert(plugins, plugin)
+        end
     end
 end
 
