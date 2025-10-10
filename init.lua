@@ -279,8 +279,7 @@ wk.add({
     { "<leader>t", group = "Terminal" },
     { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
     { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
-    { "<leader>tt", "<cmd>ToggleTerm direction=tab<cr>", desc = "Tab Terminal" },
-    { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle All Terminals" },
+    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Tab Terminal" },
 
     -- Addons menu
     { "<leader>a",  function() require("addons.menu").show() end,      desc = "Toggle Addons",          mode = "n" },
