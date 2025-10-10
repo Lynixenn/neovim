@@ -1,4 +1,4 @@
-A simple and modular Neovim configuration written in Lua.
+Simple, Personal Neovim configuration
 
 ## Installation
 
@@ -16,13 +16,16 @@ A simple and modular Neovim configuration written in Lua.
 
 ## Structure
 
-The configuration is organized in a modular structure for easy maintenance:
+The configuration is organized in a modular structure for easy maintenance, focusing on Simple things like:
+- Syntax highlighting
+- A Theme
+- Speed
+- Minimality
 
-    ~/.config/nvim/
-    ├── init.lua          # Entry point
-    ├──── lua/              # Lua modules
-    ├────── addons/
-    └──────── modules/
+To Accomplish this, the basic Configuration is kept simple, working through an "Addon" System instead.
+File-specific keybinds are always bound as a group to `<leader>y` to simplify the keybind structure.
+
+Both Typst, LaTeX, C, C++ and Rust might work with `<leader>y`, but the keybinds will have a different functionality buffer to buffer.
 
 ## Requirements
 
