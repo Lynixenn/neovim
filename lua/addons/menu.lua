@@ -17,7 +17,7 @@ local addons = {
     { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
     { name = "git-extras",  display = "Lazygit Neovim Integration (Graphical Git Helper)" },
     { name = "markdown-preview", display = "Markdown Support (Preview in-terminal)" },
-    { name = "theme-hub", display = "Theme Downloader and Picker" },
+    { name = "theme-picker", display = "Theme Downloader and Picker" },
 }
 
 -- Create custom telescope picker

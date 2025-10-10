@@ -32,6 +32,10 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
+vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
+vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'D', '"_D', { noremap = true })
+vim.keymap.set({'n', 'v'}, 'x', '"_x', { noremap = true })
 
 local addon_state = require("addons.state")
 
@@ -221,21 +225,10 @@ local plugins = {
             })
         end,
     },
-
-    -- Sonokai: Monokai-pro-esque color theme
-    {
-        "sainnhe/sonokai",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            vim.g.sonokai_style = "default"
-            vim.cmd.colorscheme("sonokai")
-        end
-    },
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview", "theme-hub" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview", "theme-picker" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then
@@ -289,7 +282,7 @@ wk.add({
     { "<leader>t", group = "Terminal" },
     { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
     { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
-    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Tab Terminal" },
+    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Floating Terminal" },
 
     -- UI group
     { "<leader>u", group = "UI" },
