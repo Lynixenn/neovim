@@ -1,4 +1,4 @@
-Simple, Personal Neovim configuration
+# Simple, Personal, Opinionated Neovim configuration
 
 ## Installation
 
@@ -18,7 +18,6 @@ Simple, Personal Neovim configuration
 
 The configuration is organized in a modular structure for easy maintenance, focusing on Simple things like:
 - Syntax highlighting
-- A Theme
 - Speed
 - Minimality
 
@@ -31,3 +30,8 @@ Both Typst, LaTeX, C, C++ and Rust might work with `<leader>y`, but the keybinds
 
 - Neovim 0.11 or later
 - Git
+
+### If LSP support needed:
+These all depend on the LSP Server!
+- Node
+- Python
