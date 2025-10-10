@@ -63,7 +63,7 @@ local plugins = {
             require("mini.statusline").setup()
             require("mini.icons").setup()
             require('mini.icons').mock_nvim_web_devicons()
-            require("mini.cursorword").setup()
+            --  require("mini.cursorword").setup()
             require("mini.move").setup()
         end,
     },
@@ -162,8 +162,18 @@ local plugins = {
         opts = {}
     },
 
+    -- Telescope: Picker UI
     {
         "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            {
+                "nvim-telescope/telescope-ui-select.nvim",
+                config = function()
+                    require("telescope").load_extension("ui-select")
+                end,
+            },
+        },
         cmd = "Telescope",
         opts = {
             pickers = {
@@ -225,7 +235,7 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview", "theme-hub" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then
@@ -280,6 +290,9 @@ wk.add({
     { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
     { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
     { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Tab Terminal" },
+
+    -- UI group
+    { "<leader>u", group = "UI" },
 
     -- Addons menu
     { "<leader>a",  function() require("addons.menu").show() end,      desc = "Toggle Addons",          mode = "n" },
