@@ -259,10 +259,12 @@ wk.add({
     { "<leader>q",  "<cmd>quit<cr>",                                   desc = "Quit",                   mode = "n" },
     { "<Esc>",      "<cmd>nohlsearch<cr>",                             desc = "Clear search highlight", mode = "n" },
 
-    -- File explorer
-    { "<leader>e",  "<cmd>Otree<CR>",                                  desc = "Toggle Filetree",        mode = "n" },
+    -- File explorer Group
+    { "<leader>e", group = "Filetree" },
+    { "<leader>ee",  "<cmd>Otree<CR>",                                  desc = "Toggle Filetree",        mode = "n" },
+    { "<leader>ef",  "<cmd>OtreeFocus<CR>",                             desc = "Focus Filetree",         mode = "n" },
 
-    -- Find group (mini.pick)
+    -- Find group (Telescope)
     { "<leader>f",  group = "Find" },
     { "<leader>ff", "<cmd>Telescope find_files<cr>",                   desc = "Find files",             mode = 'n' },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>",                    desc = "Live grep",              mode = 'n' },
@@ -272,6 +274,13 @@ wk.add({
     -- Buffer group
     { "<leader>b",  group = "Buffer" },
     { "<leader>bd", function() require("mini.bufremove").delete() end, desc = "Delete buffer",          mode = "n" },
+
+    -- Terminal group
+    { "<leader>t", group = "Terminal" },
+    { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
+    { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
+    { "<leader>tt", "<cmd>ToggleTerm direction=tab<cr>", desc = "Tab Terminal" },
+    { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle All Terminals" },
 
     -- Addons menu
     { "<leader>a",  function() require("addons.menu").show() end,      desc = "Toggle Addons",          mode = "n" },
