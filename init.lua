@@ -32,10 +32,10 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
-vim.keymap.set({'n', 'v'}, 'd', '"_d', { noremap = true })
+vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { noremap = true })
 vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'D', '"_D', { noremap = true })
-vim.keymap.set({'n', 'v'}, 'x', '"_x', { noremap = true })
+vim.keymap.set({ 'n', 'v' }, 'D', '"_D', { noremap = true })
+vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { noremap = true })
 
 local addon_state = require("addons.state")
 
@@ -67,7 +67,6 @@ local plugins = {
             require("mini.statusline").setup()
             require("mini.icons").setup()
             require('mini.icons').mock_nvim_web_devicons()
-            --  require("mini.cursorword").setup()
             require("mini.move").setup()
         end,
     },
@@ -200,21 +199,6 @@ local plugins = {
         end,
     },
 
-    -- Gitsigns: Git helper
-    {
-        "lewis6991/gitsigns.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        config = function()
-            require("gitsigns").setup({
-                current_line_blame = true,
-                current_line_blame_opts = {
-                    delay = 300,
-                    virt_text_pos = "eol",
-                },
-            })
-        end,
-    },
-
     -- Which-key: Keymap helper
     {
         "folke/which-key.nvim",
@@ -228,7 +212,8 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git-extras", "markdown-preview", "theme-picker" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown-preview",
+    "theme-picker" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then
@@ -258,42 +243,43 @@ local wk = require("which-key")
 
 wk.add({
     -- Basic editor commands
-    { "<leader>w",  "<cmd>write<cr>",                                  desc = "Write file",             mode = "n" },
-    { "<leader>q",  "<cmd>quit<cr>",                                   desc = "Quit",                   mode = "n" },
-    { "<Esc>",      "<cmd>nohlsearch<cr>",                             desc = "Clear search highlight", mode = "n" },
+    { "<leader>w",  "<cmd>write<cr>",                                   desc = "Write file",             mode = "n" },
+    { "<leader>q",  "<cmd>quit<cr>",                                    desc = "Quit",                   mode = "n" },
+    { "<Esc>",      "<cmd>nohlsearch<cr>",                              desc = "Clear search highlight", mode = "n" },
 
     -- File explorer Group
-    { "<leader>e", group = "Filetree" },
-    { "<leader>ee",  "<cmd>Otree<CR>",                                  desc = "Toggle Filetree",        mode = "n" },
-    { "<leader>ef",  "<cmd>OtreeFocus<CR>",                             desc = "Focus Filetree",         mode = "n" },
+    { "<leader>e",  group = "Filetree" },
+    { "<leader>ee", "<cmd>Otree<CR>",                                   desc = "Toggle Filetree",        mode = "n" },
+    { "<leader>ef", "<cmd>OtreeFocus<CR>",                              desc = "Focus Filetree",         mode = "n" },
 
     -- Find group (Telescope)
     { "<leader>f",  group = "Find" },
-    { "<leader>ff", "<cmd>Telescope find_files<cr>",                   desc = "Find files",             mode = 'n' },
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>",                    desc = "Live grep",              mode = 'n' },
-    { "<leader>fb", "<cmd>Telescope buffers<cr>",                      desc = "Find buffers",           mode = 'n' },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>",                    desc = "Help tags",              mode = 'n' },
+    { "<leader>ff", "<cmd>Telescope find_files<cr>",                    desc = "Find files",             mode = 'n' },
+    { "<leader>fg", "<cmd>Telescope live_grep<cr>",                     desc = "Live grep",              mode = 'n' },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>",                       desc = "Find buffers",           mode = 'n' },
+    { "<leader>fh", "<cmd>Telescope help_tags<cr>",                     desc = "Help tags",              mode = 'n' },
 
     -- Buffer group
     { "<leader>b",  group = "Buffer" },
-    { "<leader>bd", function() require("mini.bufremove").delete() end, desc = "Delete buffer",          mode = "n" },
+    { "<leader>bd", function() require("mini.bufremove").delete() end,  desc = "Delete buffer",          mode = "n" },
 
     -- Terminal group
-    { "<leader>t", group = "Terminal" },
-    { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical Terminal" },
+    { "<leader>t",  group = "Terminal" },
+    { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>",   desc = "Vertical Terminal" },
     { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
-    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Floating Terminal" },
+    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",              desc = "Floating Terminal" },
 
     -- UI group
-    { "<leader>u", group = "UI" },
+    { "<leader>u",  group = "UI" },
 
     -- Addons menu
-    { "<leader>a",  function() require("addons.menu").show() end,      desc = "Toggle Addons",          mode = "n" },
+    { "<leader>a",  function() require("addons.menu").show() end,       desc = "Toggle Addons",          mode = "n" },
 })
 
 -- Diagnostics
 vim.diagnostic.config({
-    virtual_text = true,
+    virtual_text = false,
+    virtual_lines = true,
     signs = true,
     underline = true,
     update_in_insert = false,
