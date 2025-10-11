@@ -1,12 +1,13 @@
 return {
+    -- Neogit: Lazygit Alternative, this one is fully neovim-native
     {
         "NeogitOrg/neogit",
         dependencies = {
-            "nvim-lua/plenary.nvim",         -- required
-            "sindrets/diffview.nvim",        -- optional - Diff integration
-            "nvim-telescope/telescope.nvim", -- optional
+            "nvim-lua/plenary.nvim",
+            "sindrets/diffview.nvim",
+            "nvim-telescope/telescope.nvim",
         },
-        cmd = "Neogit",
+        cmd = { "BufReadPre", "BufNewFile" },
         config = function()
             require("neogit").setup {}
             local wk = require("which-key")
