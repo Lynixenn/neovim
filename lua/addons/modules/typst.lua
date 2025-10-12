@@ -7,6 +7,15 @@ return {
         opts = {},
     },
 
+
+    {
+        'OXY2DEV/markview.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
+        opts = {},
+    },
+
     {
         "kaarmu/typst.vim",
         ft = "typst",
@@ -91,4 +100,3 @@ return {
         end,
     },
 }
-

@@ -1,12 +1,9 @@
--- Renders Markdown directly in the Terminal
 return {
     {
-        'MeanderingProgrammer/render-markdown.nvim',
-        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },
-        ---@module 'render-markdown'
-        ---@type render.md.UserConfig
-
-        ft = "markdown",
+        'OXY2DEV/markview.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+        },
         opts = {},
     }
 }
