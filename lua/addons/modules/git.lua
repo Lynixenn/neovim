@@ -7,7 +7,7 @@ return {
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim",
         },
-        cmd = { "BufReadPre", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("neogit").setup {}
             local wk = require("which-key")

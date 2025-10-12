@@ -1,23 +1,35 @@
 return {
+    { "bettervim/yugen.nvim",        lazy = true },
+    { "Mofiqul/vscode.nvim",         lazy = true },
+    { "sainnhe/sonokai",             lazy = true },
+    { "EdenEast/nightfox.nvim",      lazy = true },
+    { "dasupradyumna/midnight.nvim", lazy = true },
+    { "bluz71/vim-moonfly-colors",   name = "moonfly", lazy = true },
+
+    -- Themery automatically loads the active theme
     {
-        'lmantw/themify.nvim',
+        "zaldih/themery.nvim",
         lazy = false,
-        priority = 999,
-  
+        priority = 1000,
         config = function()
-            require('themify').setup({
-                'bettervim/yugen.nvim',
-                'Mofiqul/vscode.nvim',
-                'sainnhe/sonokai',
-                'EdenEast/nightfox.nvim',
-                'dasupradyumna/midnight.nvim',
-                'bluz71/vim-moonfly-colors'
+            require("themery").setup({
+                themes = {
+                    "vscode",
+                    "yugen",
+                    "sonokai",
+                    "carbonfox",
+                    "nightfox",
+                    "midnight",
+                    "moonfly",
+                },
+
+                livePreview = true,
             })
+
             local wk = require("which-key")
             wk.add({
-                { "<leader>ut", "<cmd>Themify<cr>", desc = "Theme Picker" }
+                { "<leader>ut", "<cmd>Themery<cr>", desc = "Theme Picker" }
             })
         end,
-    }
-
+    },
 }

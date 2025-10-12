@@ -94,12 +94,13 @@ return {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
                     wk.add({
-                        { "gd",         vim.lsp.buf.definition,     desc = "Go to Definition",     buffer = ev.buf },
-                        { "K",          vim.lsp.buf.hover,          desc = "Hover Documentation",  buffer = ev.buf },
-                        { "gi",         vim.lsp.buf.implementation, desc = "Go to Implementation", buffer = ev.buf },
-                        { "gr",         vim.lsp.buf.references,     desc = "Go to References",     buffer = ev.buf },
-                        { "<leader>rn", vim.lsp.buf.rename,         desc = "Rename Symbol",        buffer = ev.buf },
-                        { "<leader>ca", vim.lsp.buf.code_action,    desc = "Code Action",          buffer = ev.buf },
+                        { "gd",          vim.lsp.buf.definition,     desc = "Go to Definition",     buffer = ev.buf },
+                        { "K",           vim.lsp.buf.hover,          desc = "Hover Documentation",  buffer = ev.buf },
+                        { "gi",          vim.lsp.buf.implementation, desc = "Go to Implementation", buffer = ev.buf },
+                        { "gr",          vim.lsp.buf.references,     desc = "Go to References",     buffer = ev.buf },
+                        { "<leader>c",   group = "Code",             buffer = ev.buf },
+                        { "<leader>crs", vim.lsp.buf.rename,         desc = "Rename Symbol",        buffer = ev.buf },
+                        { "<leader>ca",  vim.lsp.buf.code_action,    desc = "Code Action",          buffer = ev.buf },
                     })
                 end,
             })
