@@ -4,6 +4,7 @@ return {
         dependencies = {
             'nvim-treesitter/nvim-treesitter',
         },
+        ft = { "markdown", "rmd", "qmd" },
         opts = {},
     }
 }
