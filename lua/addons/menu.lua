@@ -9,15 +9,16 @@ local M = {}
 
 -- Define available addons
 local addons = {
-    { name = "lsp",              display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
-    { name = "compiler",         display = "Compiler (Build & Run)" },
-    { name = "rust",             display = "Rust Extras (Rustacean & extended Cargo Support)" },
-    { name = "java",             display = "Java Extras (Extended Java Support + Debug)" },
-    { name = "typst",            display = "Typst markup support (Live Preview & Compilation)" },
-    { name = "code-extras",      display = "Code Addons (Codelens & Hints & breadcrumbs)" },
-    { name = "git",              display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
-    { name = "markdown-preview", display = "Markdown Support (Preview in-terminal)" },
-    { name = "theme-picker",     display = "Theme Downloader and Picker" },
+    { name = "lsp",         display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
+    { name = "compiler",    display = "Compiler (Build & Run)" },
+    { name = "rust",        display = "Rust Extras (Rustacean & extended Cargo Support)" },
+    { name = "java",        display = "Java Extras (Extended Java Support + Debug)" },
+    { name = "typst",       display = "Typst markup support (Live Preview & Compilation)" },
+    { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
+    { name = "git",         display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
+    { name = "markdown",    display = "Markview" },
+    { name = "theme",       display = "Sonokai Atlantis" },
+    { name = "flash",       display = "Search replacement" }
 }
 
 -- Create custom telescope picker

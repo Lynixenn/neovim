@@ -22,6 +22,7 @@ return {
     -- Mason-LSPConfig bridge
     {
         "williamboman/mason-lspconfig.nvim",
+        lazy = true,
         dependencies = {
             "williamboman/mason.nvim",
             "neovim/nvim-lspconfig",

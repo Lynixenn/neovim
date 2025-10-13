@@ -21,7 +21,14 @@ vim.opt.wrap = false
 vim.opt.showmode = false
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
+vim.opt.statuscolumn = "%s%l  "
 vim.opt.title = true
+vim.opt.fillchars = {
+    vert = " ",
+    vertleft = " ",
+    vertright = " ",
+    verthoriz = " ",
+}
 
 -- Search
 vim.opt.ignorecase = true
@@ -29,6 +36,7 @@ vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
 vim.opt.wrapscan = true
+vim.opt.inccommand = "split"
 
 -- Tabs / Indenting
 vim.opt.tabstop = 4
@@ -40,6 +48,7 @@ vim.opt.gdefault = true
 -- Window
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.o.winborder = "none"
 
 -- General
 vim.opt.mouse = "a"
@@ -49,6 +58,8 @@ vim.opt.autowriteall = true
 vim.opt.undofile = true
 vim.opt.autoread = true
 vim.opt.sessionoptions = "buffers,curdir,tabpages,winsize"
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { noremap = true })
 vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
@@ -73,18 +84,28 @@ end
 local plugins = {
     -- mini.nvim: minimal and dependency-free module suite
     {
-        "echasnovski/mini.nvim",
+        "nvim-mini/mini.nvim",
         version = false,
         event = "VeryLazy",
+        init = function()
+            package.preload["nvim-web-devicons"] = function()
+                require("mini.icons").mock_nvim_web_devicons()
+                return package.loaded["nvim-web-devicons"]
+            end
+        end,
         config = function()
             require("mini.pairs").setup()
             require("mini.comment").setup()
             require("mini.surround").setup()
-            require("mini.tabline").setup()
             require("mini.bufremove").setup()
             require("mini.statusline").setup()
             require("mini.icons").setup()
-            require('mini.icons').mock_nvim_web_devicons()
+            require("mini.notify").setup({
+                lsp_progress = {
+                    enable = false,
+                },
+            })
+            vim.notify = require("mini.notify").make_notify()
         end,
     },
 
@@ -100,7 +121,7 @@ local plugins = {
     {
         "j-hui/fidget.nvim",
         tag = "v1.6.1",
-        lazy = false,
+        event = "LspAttach",
         opts = {
             progress = {
                 display = {
@@ -109,36 +130,15 @@ local plugins = {
                 },
             },
             notification = {
-                override_vim_notify = true,
+                override_vim_notify = false,
                 filter = vim.log.levels.INFO,
                 window = {
-                    winblend = 0,
+                    winblend = 1,
                     border = "none",
                     relative = "editor",
                 },
             },
         },
-    },
-
-    -- OTree: Filetree with Oil.nvim support
-    {
-        "Eutrius/Otree.nvim",
-        cmd = { "Otree" },
-        dependencies = {
-            "stevearc/oil.nvim",
-            { "echasnovski/mini.icons", opts = {} },
-        },
-        config = function()
-            require("Otree").setup({
-                win_size = 40,
-                open_on_left = false,
-                git_signs = true,
-                lsp_signs = true,
-                show_hidden = true,
-                show_ignore = true,
-            })
-            require("oil").setup({})
-        end
     },
 
     -- Treesitter: syntax highlighting
@@ -175,6 +175,54 @@ local plugins = {
         end
     },
 
+    -- Neotree: Filetree
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+        },
+        cmd = "Neotree",
+        opts = {
+            window = {
+                position = "right",
+            },
+            close_if_last_window = true,
+            popup_border_style = "solid",
+            enable_git_status = true,
+            enable_diagnostics = true,
+            filesystem = {
+                filtered_items = {
+                    visible = true,
+                    hide_dotfiles = false,
+                    hide_gitignored = false,
+                },
+                follow_current_file = {
+                    enabled = true,
+                },
+                use_libuv_file_watcher = true,
+            },
+
+        },
+    },
+
+    -- barbar: Tabline plugin
+    {
+        'romgrk/barbar.nvim',
+        event = "VeryLazy",
+        dependencies = {
+            'lewis6991/gitsigns.nvim',
+            -- No nvim-web-devicons needed
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            minimum_padding = 2,
+            maximum_padding = 4,
+        },
+    },
+
+
     -- Todo-comments: Highlight comments
     {
         "folke/todo-comments.nvim",
@@ -196,6 +244,9 @@ local plugins = {
         },
         cmd = "Telescope",
         opts = {
+            defaults = {
+                border = false,
+            },
             pickers = {
                 find_files = {
                     hidden = true,
@@ -229,8 +280,7 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown-preview",
-    "theme-picker" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme", "flash" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then
@@ -277,8 +327,10 @@ wk.add({
 
     -- File explorer Group
     { "<leader>e",  group = "Filetree" },
-    { "<leader>ee", "<cmd>Otree<CR>",                                   desc = "Toggle Filetree",            mode = "n" },
-    { "<leader>ef", "<cmd>OtreeFocus<CR>",                              desc = "Focus Filetree",             mode = "n" },
+    -- { "<leader>ee", "<cmd>Otree<CR>",                                   desc = "Toggle Filetree",            mode = "n" },
+    -- { "<leader>ef", "<cmd>OtreeFocus<CR>",                              desc = "Focus Filetree",             mode = "n" },
+    { "<leader>ee", "<cmd>Neotree toggle<CR>",                          desc = "Toggle Filetree",            mode = "n" },
+    { "<leader>ef", "<cmd>Neotree focus<CR>",                           desc = "Focus Filetree",             mode = "n" },
 
     -- Find group (Telescope)
     { "<leader>f",  group = "Find" },

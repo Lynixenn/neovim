@@ -7,14 +7,11 @@ return {
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim",
         },
-        event = { "BufReadPre", "BufNewFile" },
-        config = function()
-            require("neogit").setup {}
-            local wk = require("which-key")
-            wk.add({
-                { "<leader>g", "<cmd>Neogit<cr>", desc = "Neogit" }
-            })
-        end
+        cmd = "Neogit",
+        keys = {
+            { "<leader>g", "<cmd>Neogit<cr>", desc = "Neogit" }
+        },
+        opts = {},
     },
 
     -- Gitsigns: Git helper and change highlighting

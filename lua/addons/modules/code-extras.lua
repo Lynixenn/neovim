@@ -8,22 +8,41 @@ return {
         opts = {
             profiles = {
                 {
-                    name = 'basic',
+                    name = 'enhanced',
                     providers = {
-                        { name = "usages",      enabled = true, include = { "refs", "impls" }, breakdown = false },
-                        { name = "last_author", enabled = true }
+                        {
+                            name = "usages",
+                            enabled = true,
+                            include = { "refs", "impls", "defs" },
+                            breakdown = true,
+                            min_count = 1
+                        },
+                        {
+                            name = "last_author",
+                            enabled = true,
+                            show_time = true
+                        },
+                        {
+                            name = "diagnostics",
+                            enabled = true
+                        }
                     },
                     style = {
                         placement = "above",
-                        prefix = '',
-                        render = "all"
-                    }
+                        prefix = '󰌵 ',
+                        separator = ' │ ',
+                        render = "focused"
+                    },
                 },
+            },
+            enable = true,
+            debounce = 100,
+            highlight = {
+                virtual_text = "Comment",
+                separator = "NonText"
             }
         },
     },
-
-
 
     -- Dropbar: Breadcrumbs, configured to be not have the filename inside.
     {
