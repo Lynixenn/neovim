@@ -280,7 +280,7 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme", "flash" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then

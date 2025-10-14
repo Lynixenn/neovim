@@ -17,8 +17,7 @@ local addons = {
     { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
     { name = "git",         display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
     { name = "markdown",    display = "Markview" },
-    { name = "theme",       display = "Sonokai Atlantis" },
-    { name = "flash",       display = "Search replacement" }
+    { name = "theme",       display = "Sonokai Atlantis" }, 
 }
 
 -- Create custom telescope picker
