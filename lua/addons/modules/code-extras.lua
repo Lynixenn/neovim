@@ -1,44 +1,75 @@
 return {
 
-    -- Lensline.nvim: Codelens/Hints
+    -- Lensline: Codelens plugin
     {
         'oribarilan/lensline.nvim',
         branch = 'release/2.x',
         event = 'LspAttach',
-        config = function()
-            require("lensline").setup({
-                profiles = {
-                    {
-                        name = 'minimal',
-                        style = {
-                            placement = 'above',
-                            prefix = '',
+        opts = {
+            profiles = {
+                {
+                    name = 'enhanced',
+                    providers = {
+                        {
+                            name = "usages",
+                            enabled = true,
+                            include = { "refs", "impls", "defs" },
+                            breakdown = true,
+                            min_count = 1
                         },
+                        {
+                            name = "last_author",
+                            enabled = true,
+                            show_time = true
+                        },
+                        {
+                            name = "diagnostics",
+                            enabled = true
+                        }
                     },
-                    {
-                        name = "basic",
-                        providers = {
-                            { name = "usages",      enabled = true, include = { "refs" }, breakdown = false },
-                            { name = "last_author", enabled = true }
-                        },
-                        style = { render = "all", placement = "above" }
+                    style = {
+                        placement = "above",
+                        prefix = '󰌵 ',
+                        separator = ' │ ',
+                        render = "focused"
                     },
-                    {
-                        name = "informative",
-                        providers = {
-                            { name = "usages",      enabled = true, include = { "refs", "defs", "impls" }, breakdown = true },
-                            { name = "diagnostics", enabled = true, min_level = "HINT" },
-                            { name = "complexity",  enabled = true }
-                        },
-                        style = { render = "focused", placement = "inline" }
-                    }
-                }
-            })
-        end,
+                },
+            },
+            enable = true,
+            debounce = 100,
+            highlight = {
+                virtual_text = "Comment",
+                separator = "NonText"
+            }
+        },
     },
 
-    -- Dropbar.nvim: Breadcrumbs (Context aware). VSCode Like
+    -- Dropbar: Breadcrumbs, configured to be not have the filename inside.
     {
-        'Bekaboo/dropbar.nvim',
-    },
+        "Bekaboo/dropbar.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            bar = {
+                sources = function(buf, _)
+                    local sources = require('dropbar.sources')
+                    local utils = require('dropbar.utils')
+
+                    if vim.bo[buf].ft == 'markdown' then
+                        return { sources.markdown }
+                    end
+                    if vim.bo[buf].buftype == 'terminal' then
+                        return { sources.terminal }
+                    end
+
+                    return {
+                        utils.source.fallback({
+                            sources.lsp,
+                            sources.treesitter,
+                        }),
+                    }
+                end,
+            },
+        },
+    }
+
 }

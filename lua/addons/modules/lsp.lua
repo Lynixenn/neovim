@@ -22,33 +22,49 @@ return {
     -- Mason-LSPConfig bridge
     {
         "williamboman/mason-lspconfig.nvim",
+        lazy = true,
         dependencies = {
             "williamboman/mason.nvim",
             "neovim/nvim-lspconfig",
         },
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = {"lua_ls"},
-                automatic_enable = true,
+                ensure_installed = { "lua_ls" },
             })
         end,
     },
 
-    -- Blink.cmp: Autocompletion UI Plugin
+    -- LuaSnip: Snippet Engine
+    {
+        "rafamadriz/friendly-snippets",
+        lazy = false,
+    },
+
+    -- Blink.cmp: Autocompletion with LuaSnip integration
     {
         "saghen/blink.cmp",
         version = '1.*',
         event = { "InsertEnter", "CmdlineEnter" },
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+        },
+
         opts = {
-            keymap = { preset = 'default' },
-            completion = {
-                documentation = { auto_show = true, auto_show_delay_ms = 200 }
+            sources = {
+                default = { "lsp", "snippets", "path", "buffer" },
             },
 
-            sources = {
-                default = { "lsp", "snippets", "path", "buffer" }
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 200,
+                }
             },
-        }
+
+            signature = {
+                enabled = true,
+            },
+        },
     },
 
     -- Conform.nvim: Lightweight and quick formatter
@@ -62,27 +78,33 @@ return {
         }
     },
 
-    -- LSP Config
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
-        dependencies = { "williamboman/mason-lspconfig.nvim", "j-hui/fidget.nvim", "saghen/blink.cmp" },
+        dependencies = {
+            "williamboman/mason-lspconfig.nvim",
+            "j-hui/fidget.nvim",
+            "saghen/blink.cmp",
+            "folke/which-key.nvim"
+        },
         config = function()
-            -- LSP keymaps (only when LSP attaches)
+            local wk = require("which-key")
+
+            -- only when LSP attaches, add Keymaps
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                 callback = function(ev)
-                    local opts = { buffer = ev.buf, silent = true }
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-                    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-                    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+                    wk.add({
+                        { "gd",          vim.lsp.buf.definition,     desc = "Go to Definition",     buffer = ev.buf },
+                        { "K",           vim.lsp.buf.hover,          desc = "Hover Documentation",  buffer = ev.buf },
+                        { "gi",          vim.lsp.buf.implementation, desc = "Go to Implementation", buffer = ev.buf },
+                        { "gr",          vim.lsp.buf.references,     desc = "Go to References",     buffer = ev.buf },
+                        { "<leader>c",   group = "Code",             buffer = ev.buf },
+                        { "<leader>crs", vim.lsp.buf.rename,         desc = "Rename Symbol",        buffer = ev.buf },
+                        { "<leader>ca",  vim.lsp.buf.code_action,    desc = "Code Action",          buffer = ev.buf },
+                    })
                 end,
             })
         end,
     },
-
 }
-
