@@ -1,4 +1,3 @@
--- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -94,9 +93,7 @@ local plugins = {
             end
         end,
         config = function()
-            require("mini.pairs").setup()
             require("mini.comment").setup()
-            require("mini.surround").setup()
             require("mini.bufremove").setup()
             require("mini.statusline").setup()
             require("mini.icons").setup()
@@ -159,12 +156,6 @@ local plugins = {
         end,
     },
 
-    -- Treesitter-Context: Show Context
-    {
-        "nvim-treesitter/nvim-treesitter-context",
-        event = { "BufReadPost", "BufNewFile" },
-        opts = { max_lines = 4, multiline_threshold = 2 },
-    },
 
     -- Nvim-colorizer: hex code color
     {
@@ -280,7 +271,8 @@ local plugins = {
 }
 
 -- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme" }
+local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme",
+    "searchandreplace", "pairhelpers" }
 for _, addon_name in ipairs(addon_names) do
     local ok, addon_plugins = pcall(load_addon, addon_name)
     if ok and addon_plugins then

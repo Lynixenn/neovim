@@ -9,15 +9,17 @@ local M = {}
 
 -- Define available addons
 local addons = {
-    { name = "lsp",         display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
-    { name = "compiler",    display = "Compiler (Build & Run)" },
-    { name = "rust",        display = "Rust Extras (Rustacean & extended Cargo Support)" },
-    { name = "java",        display = "Java Extras (Extended Java Support + Debug)" },
-    { name = "typst",       display = "Typst markup support (Live Preview & Compilation)" },
-    { name = "code-extras", display = "Code Addons (Codelens & Hints & breadcrumbs)" },
-    { name = "git",         display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
-    { name = "markdown",    display = "Markview" },
-    { name = "theme",       display = "Sonokai Atlantis" }, 
+    { name = "lsp",              display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
+    { name = "compiler",         display = "Compiler (Build & Run)" },
+    { name = "rust",             display = "Rust Extras (Rustacean & extended Cargo Support)" },
+    { name = "java",             display = "Java Extras (Extended Java Support + Debug)" },
+    { name = "typst",            display = "Typst markup support (Live Preview & Compilation)" },
+    { name = "code-extras",      display = "Code Addons (Codelens & Hints & breadcrumbs)" },
+    { name = "git",              display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
+    { name = "markdown",         display = "Markview" },
+    { name = "theme",            display = "Sonokai Atlantis" },
+    { name = "searchandreplace", display = "Search and Replace UI Plugin" },
+    { name = "pairhelpers",      display = "Helpers for Pairing + Surround" }
 }
 
 -- Create custom telescope picker

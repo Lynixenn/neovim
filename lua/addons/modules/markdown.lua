@@ -5,6 +5,20 @@ return {
             'nvim-treesitter/nvim-treesitter',
         },
         ft = { "markdown", "rmd", "qmd" },
-        opts = {},
+        opts = {
+            markdown = { -- Tables config goes inside markdown
+                tables = {
+                    enable = true,
+                    strict = true,
+                },
+            },
+            latex = {
+                enable = true,
+                inlines = true,
+                blocks = {
+                    enable = true,
+                },
+            },
+        },
     }
 }

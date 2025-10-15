@@ -54,6 +54,10 @@ return {
                 default = { "lsp", "snippets", "path", "buffer" },
             },
 
+            fuzzy = {
+                implementation = "prefer_rust_with_warning",
+            },
+
             completion = {
                 documentation = {
                     auto_show = true,
@@ -71,9 +75,23 @@ return {
     {
         "stevearc/conform.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        keys = {
+            {
+                "<leader>cf",
+                function()
+                    require("conform").format({ async = true })
+                end,
+                mode = "n",
+                desc = "Format buffer",
+            },
+            { "<leader>c", group = "Code" },
+        },
         opts = {
+            formatters_by_ft = {
+                markdown = { "prettier" },
+            },
             format_on_save = {
-                lsp_format = "prefer",
+                lsp_format = "fallback",
             }
         }
     },
