@@ -1,8 +1,9 @@
 return {
     {
         "mrcjkb/rustaceanvim",
-        version = "^2",
+        version = "^5",
         ft = { "rust" },
+        event = { "BufRead Cargo.toml" },
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "rust",
@@ -21,9 +22,8 @@ return {
 
     {
         "Saecki/crates.nvim",
-        ft = { "toml" },
-        config = function()
-            require("crates").setup()
+        event = { "BufRead Cargo.toml" },
+        init = function()
             vim.api.nvim_create_autocmd("BufRead", {
                 pattern = "Cargo.toml",
                 callback = function()
@@ -36,6 +36,9 @@ return {
                     })
                 end,
             })
+        end,
+        config = function()
+            require("crates").setup()
         end,
     },
 }
