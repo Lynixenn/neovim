@@ -95,7 +95,6 @@ local plugins = {
         config = function()
             require("mini.comment").setup()
             require("mini.bufremove").setup()
-            require("mini.statusline").setup()
             require("mini.icons").setup()
             require("mini.notify").setup({
                 lsp_progress = {
@@ -104,6 +103,15 @@ local plugins = {
             })
             vim.notify = require("mini.notify").make_notify()
         end,
+    },
+
+    -- Lualine: Statusline Plugin. Minimal configuration
+    {
+        "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
+        opts = {
+            extensions = { "neo-tree", "overseer", "lazy", "toggleterm", "mason" }
+        },
     },
 
     -- Indent-blankline: Indentlines with Highlighting of the current scope
@@ -297,11 +305,9 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     command = "checktime",
 })
 
--- Keymaps using which-key v3
 local wk = require("which-key")
-
 wk.add({
-    -- ++++++ `Basic editor commands
+    -- Basic editor commands
     { "<Esc>",      "<cmd>nohlsearch<cr>",                              desc = "Clear search highlight",     mode = "n" },
 
     -- Moving lines up and down
@@ -314,13 +320,8 @@ wk.add({
     { "<",          "<gv",                                              desc = "Indent left and re-select",  mode = "v" },
     { ">",          ">gv",                                              desc = "Indent right and re-select", mode = "v" },
 
-    -- ====== Basic editor commands
-
-
     -- File explorer Group
     { "<leader>e",  group = "Filetree" },
-    -- { "<leader>ee", "<cmd>Otree<CR>",                                   desc = "Toggle Filetree",            mode = "n" },
-    -- { "<leader>ef", "<cmd>OtreeFocus<CR>",                              desc = "Focus Filetree",             mode = "n" },
     { "<leader>ee", "<cmd>Neotree toggle<CR>",                          desc = "Toggle Filetree",            mode = "n" },
     { "<leader>ef", "<cmd>Neotree focus<CR>",                           desc = "Focus Filetree",             mode = "n" },
 
@@ -347,6 +348,7 @@ wk.add({
     -- Addons menu
     { "<leader>a",  function() require("addons.menu").show() end,       desc = "Toggle Addons",              mode = "n" },
 })
+
 
 -- Diagnostics
 vim.diagnostic.config({
