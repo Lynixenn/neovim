@@ -8,75 +8,28 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Leader Key
-vim.g.mapleader = " "
-
--- UI
-vim.opt.number = true
-vim.opt.relativenumber = false
-vim.opt.cursorline = true
-vim.opt.showmatch = true
-vim.opt.wrap = false
-vim.opt.showmode = false
-vim.opt.termguicolors = true
-vim.opt.signcolumn = "yes"
-vim.opt.statuscolumn = "%s%l  "
-vim.opt.title = true
-vim.opt.fillchars = {
-    vert = " ",
-    vertleft = " ",
-    vertright = " ",
-    verthoriz = " ",
-}
-
--- Search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.incsearch = true
-vim.opt.hlsearch = true
-vim.opt.wrapscan = true
-vim.opt.inccommand = "split"
-
--- Tabs / Indenting
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
-vim.opt.gdefault = true
-
--- Window
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-vim.o.winborder = "none"
-
--- General
-vim.opt.mouse = "a"
-vim.opt.clipboard = "unnamedplus"
-vim.opt.updatetime = 150
-vim.opt.autowriteall = true
-vim.opt.undofile = true
-vim.opt.autoread = true
-vim.opt.sessionoptions = "buffers,curdir,tabpages,winsize"
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
-vim.keymap.set({ 'n', 'v' }, 'd', '"_d', { noremap = true })
-vim.keymap.set('n', 'dd', '"_dd', { noremap = true })
-vim.keymap.set({ 'n', 'v' }, 'D', '"_D', { noremap = true })
-vim.keymap.set({ 'n', 'v' }, 'x', '"_x', { noremap = true })
+-- Load core modules
+require("core.options")
 
 local addon_state = require("addons.state")
 
-local function load_addon(addon_name)
-    if addon_state.is_enabled(addon_name) then
-        local ok, addon_plugins = pcall(require, "addons.modules." .. addon_name)
-        if ok then
-            return addon_plugins
-        else
-            vim.notify("Failed to load addon: " .. addon_name, vim.log.levels.ERROR)
+-- Dynamic Addon plugin loader
+local function load_addon_plugins(plugins_table)
+    local addon_files = vim.fn.globpath(vim.fn.stdpath("config") .. "/lua/addons/modules", "*.lua", true, true)
+
+    for _, file_path in ipairs(addon_files) do
+        local addon_name = vim.fn.fnamemodify(file_path, ":t:r")
+        if addon_state.is_enabled(addon_name) then
+            local ok, addon_config = pcall(require, "addons.modules." .. addon_name)
+            if ok and addon_config and addon_config.plugins then
+                for _, plugin in ipairs(addon_config.plugins) do
+                    table.insert(plugins_table, plugin)
+                end
+            else
+                vim.notify("Failed to load addon: " .. addon_name, vim.log.levels.ERROR)
+            end
         end
     end
-    return {}
 end
 
 -- General/Basic Plugins
@@ -278,84 +231,6 @@ local plugins = {
     },
 }
 
--- Load addon plugins
-local addon_names = { "lsp", "compiler", "rust", "java", "typst", "code-extras", "git", "markdown", "theme",
-    "searchandreplace", "pairhelpers" }
-for _, addon_name in ipairs(addon_names) do
-    local ok, addon_plugins = pcall(load_addon, addon_name)
-    if ok and addon_plugins then
-        for _, plugin in ipairs(addon_plugins) do
-            table.insert(plugins, plugin)
-        end
-    end
-end
-
--- Setup lazy.nvim with all plugins
+load_addon_plugins(plugins)
 require("lazy").setup(plugins)
-
--- Flash on copy/yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank({ timeout = 200 })
-    end,
-})
-
--- Auto-reload on focus/buffer switch
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-    command = "checktime",
-})
-
-local wk = require("which-key")
-wk.add({
-    -- Basic editor commands
-    { "<Esc>",      "<cmd>nohlsearch<cr>",                              desc = "Clear search highlight",     mode = "n" },
-
-    -- Moving lines up and down
-    { "<A-j>",      ":m .+1<CR>==",                                     desc = "Move line up",               mode = "n" },
-    { "<A-k>",      ":m .-2<CR>==",                                     desc = "Move line down",             mode = "n" },
-    { "<A-j>",      ":m '<-2<CR>gv=gv",                                 desc = "Move selection down",        mode = "v" },
-    { "<A-k>",      ":m '>+1<CR>gv=gv",                                 desc = "Move selection up",          mode = "v" },
-
-    -- Indenting Lines
-    { "<",          "<gv",                                              desc = "Indent left and re-select",  mode = "v" },
-    { ">",          ">gv",                                              desc = "Indent right and re-select", mode = "v" },
-
-    -- File explorer Group
-    { "<leader>e",  group = "Filetree" },
-    { "<leader>ee", "<cmd>Neotree toggle<CR>",                          desc = "Toggle Filetree",            mode = "n" },
-    { "<leader>ef", "<cmd>Neotree focus<CR>",                           desc = "Focus Filetree",             mode = "n" },
-
-    -- Find group (Telescope)
-    { "<leader>f",  group = "Find" },
-    { "<leader>ff", "<cmd>Telescope find_files<cr>",                    desc = "Find files",                 mode = 'n' },
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>",                     desc = "Live grep",                  mode = 'n' },
-    { "<leader>fb", "<cmd>Telescope buffers<cr>",                       desc = "Find buffers",               mode = 'n' },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>",                     desc = "Help tags",                  mode = 'n' },
-
-    -- Buffer group
-    { "<leader>b",  group = "Buffer" },
-    { "<leader>bd", function() require("mini.bufremove").delete() end,  desc = "Delete buffer",              mode = "n" },
-
-    -- Terminal group
-    { "<leader>t",  group = "Terminal" },
-    { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>",   desc = "Vertical Terminal" },
-    { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal Terminal" },
-    { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",              desc = "Floating Terminal" },
-
-    -- UI group
-    { "<leader>u",  group = "UI" },
-
-    -- Addons menu
-    { "<leader>a",  function() require("addons.menu").show() end,       desc = "Toggle Addons",              mode = "n" },
-})
-
-
--- Diagnostics
-vim.diagnostic.config({
-    virtual_text = false,
-    virtual_lines = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-    severity_sort = true,
-})
+require("core.keymaps")
