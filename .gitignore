@@ -34,6 +34,7 @@ lazy-lock.json
 *.so
 *.so.*
 *.dylib
+.vscode
 
 # Executables
 *.exe
