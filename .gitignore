@@ -22,7 +22,7 @@ lazy-lock.json
 *.pch
 
 # Libraries
-*.lib
+.lib
 *.a
 *.la
 *.lo
