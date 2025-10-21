@@ -22,7 +22,7 @@ lazy-lock.json
 *.pch
 
 # Libraries
-*.lib
+.lib
 *.a
 *.la
 *.lo
@@ -34,6 +34,7 @@ lazy-lock.json
 *.so
 *.so.*
 *.dylib
+.vscode
 
 # Executables
 *.exe

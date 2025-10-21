@@ -7,28 +7,32 @@ local action_state = require("telescope.actions.state")
 
 local M = {}
 
--- Define available addons
-local addons = {
-    { name = "lsp",              display = "Code Completion setup (Language Server Support, Code Completion, Formatting...)" },
-    { name = "compiler",         display = "Compiler (Build & Run)" },
-    { name = "rust",             display = "Rust Extras (Rustacean & extended Cargo Support)" },
-    { name = "java",             display = "Java Extras (Extended Java Support + Debug)" },
-    { name = "typst",            display = "Typst markup support (Live Preview & Compilation)" },
-    { name = "code-extras",      display = "Code Addons (Codelens & Hints & breadcrumbs)" },
-    { name = "git",              display = "Git Helpers (Gitsigns and a Graphical Git Helper (Neogit))" },
-    { name = "markdown",         display = "Markview" },
-    { name = "theme",            display = "Sonokai Atlantis" },
-    { name = "searchandreplace", display = "Search and Replace UI Plugin" },
-    { name = "pairhelpers",      display = "Helpers for Pairing + Surround" }
-}
+-- Dynamic Addon Scanner
+local function get_available_addons()
+    local addons = {}
+    local addon_files = vim.fn.globpath(vim.fn.stdpath("config") .. "/lua/addons/modules", "*.lua", true, true)
 
--- Create custom telescope picker
+    for _, file_path in ipairs(addon_files) do
+        local addon_name = vim.fn.fnamemodify(file_path, ":t:r")
+        local ok, addon_config = pcall(require, "addons.modules." .. addon_name)
+
+        if ok and addon_config and addon_config.display then
+            table.insert(addons, {
+                name = addon_name,
+                display = addon_config.display,
+            })
+        end
+    end
+    return addons
+end
+
+-- Telescope picker
 function M.show()
+    local available_addons = get_available_addons()
     local current_state = state.load()
 
-    -- Build entries with current status
     local entries = {}
-    for _, addon in ipairs(addons) do
+    for _, addon in ipairs(available_addons) do
         local enabled = current_state[addon.name]
         local icon = enabled and "✓" or "✗"
         local status = enabled and "(enabled)" or "(disabled)"
@@ -66,3 +70,4 @@ function M.show()
 end
 
 return M
+
