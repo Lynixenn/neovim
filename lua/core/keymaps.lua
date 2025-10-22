@@ -25,6 +25,7 @@ wk.add({
     { "<C-l>",      "<C-w>l",                                           desc = "Move to right window",       mode = "n" },
 
     -- Split windows
+    { "<leader>w",  group = "Window" },
     { "<leader>wv", "<cmd>vsplit<cr>",                                  desc = "Split vertically",           mode = "n" },
     { "<leader>wh", "<cmd>split<cr>",                                   desc = "Split horizontally",         mode = "n" },
     { "<leader>wc", "<cmd>close<cr>",                                   desc = "Close window",               mode = "n" },
@@ -54,7 +55,18 @@ wk.add({
 
     -- UI group
     { "<leader>u",  group = "UI" },
+    {
+        "<leader>ui",
+        function()
+            local bufnr = vim.api.nvim_get_current_buf()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+        end,
+        desc = "Toggle Inlay Hints",
+        mode = "n"
+    },
+
+
 
     -- Addons menu
-    { "<leader>a",  function() require("addons.menu").show() end,       desc = "Toggle Addons",              mode = "n" },
+    { "<leader>a", function() require("addons.menu").show() end, desc = "Toggle Addons", mode = "n" },
 })

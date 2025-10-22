@@ -6,10 +6,6 @@ return {
             cmd = "GrugFar",
             keys = {
                 {
-                    "<leader>s",
-                    group = "Replace"
-                },
-                {
                     "<leader>sr",
                     function()
                         require("grug-far").open()
@@ -34,9 +30,13 @@ return {
             },
             config = function()
                 vim.g.maplocalleader = " "
-                require("grug-far").setup({
+                require("grug-far").setup({})
+                local wk = require("which-key")
+                wk.add({
+                    { "<leader>s", group = "Replace" },
                 })
             end,
         }
     }
 }
+
